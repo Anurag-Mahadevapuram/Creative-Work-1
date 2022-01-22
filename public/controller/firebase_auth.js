@@ -6,6 +6,8 @@ import * as Constants from '../model/constants.js'
 
 const auth = getAuth();
 
+export let currentUser = null;
+
 export function addEventListeners() {
 
     Elements.formSignIn.addEventListener('submit', async e => {
@@ -45,10 +47,26 @@ export function addEventListeners() {
 
 function authStateChangeObserver(user) {
     if (user) {
-        //Signed In
-        console.log(`auth state changed: ${user.email}`);
+        currentUser = user;
+        let elements = document.getElementsByClassName('modal-preauth');
+        for(let i = 0; i < elements.length; i++){
+            elements[i].style.display = 'none';
+        }
+        elements = document.getElementsByClassName('modal-postauth');
+        for(let i = 0; i < elements.length; i++){
+            elements[i].style.display = 'block';
+        }
+
     } else {
-        //Signed Out
-        console.log(`auth state changed: Signed Out`);
+        currentUser = null;
+        let elements = document.getElementsByClassName('modal-preauth');
+        for(let i = 0; i < elements.length; i++){
+            elements[i].style.display = 'block';
+        }
+        elements = document.getElementsByClassName('modal-postauth');
+        for(let i = 0; i < elements.length; i++){
+            elements[i].style.display = 'none';
+        }
+
     }
 }
