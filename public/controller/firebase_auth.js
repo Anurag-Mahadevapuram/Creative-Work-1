@@ -1,7 +1,8 @@
-import { getAuth, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js';
 
 import * as Elements from '../viewpage/elements.js'
 import * as Util from '../viewpage/util.js'
+import * as Constants from '../model/constants.js'
 
 const auth = getAuth();
 
@@ -14,28 +15,40 @@ export function addEventListeners() {
         try {
 
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
-            const user = userCredential.user;
-            console.log(`Sign In Success: ${JSON.stringify(user)}`);
+            Elements.modalSignin.hide();
 
         } catch (error) {
 
             const errorCode = error.code;
             const errorMessage = error.message;
             Util.info('Sign In Error', JSON.stringify(error), Elements.modalSignin);
-            console.log(`Sign In Error: ${errorCode} | ${errorMessage}`);
+            if (Constants.DEV)
+                console.log(`Sign In Error: ${errorCode} | ${errorMessage}`);
         }
-        
+
     });
 
-    Elements.menuSignOut.addEventListener('click', async()=>{
+    Elements.menuSignOut.addEventListener('click', async () => {
         //sign out from firebase auth
-        try{
+        try {
             await signOut(auth);
-            console.log('sign out success');
-        }catch(e){
-            console.log('sign out error' + e);
+        } catch (e) {
+            Util.info('Sign Out Error', JSON.stringify(e));
+            if (Constants.DEV)
+                console.log('sign out error' + e);
         }
     });
+
+    onAuthStateChanged(auth, authStateChangeObserver);
 
 }
 
+function authStateChangeObserver(user) {
+    if (user) {
+        //Signed In
+        console.log(`auth state changed: ${user.email}`);
+    } else {
+        //Signed Out
+        console.log(`auth state changed: Signed Out`);
+    }
+}
