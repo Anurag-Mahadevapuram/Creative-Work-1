@@ -10,13 +10,17 @@ export class Thread {
         this.keywordsArray = data.keywordsArray;
     }
 
+    set_docId(id){
+        this.docId = id;
+    }
+
    //serialization
    toFirestore(){
        return{
            uid: this.uid,
            email: this.email,
            title: this.title,
-           title: this.timestamp,
+           timestamp: this.timestamp,
            content: this.content,
            keywordsArray: this.keywordsArray,
        };
