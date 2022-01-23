@@ -91,6 +91,35 @@
     </div>
   </div>
 
+  <!-- Modal: form to create a new thread -->
+  <div class="modal fade" id="modal-create-thread" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modal-create-thread-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-create-thread-label">Create New Thread</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form-create-thread" method="post">
+            <div>
+              <input type="text" name="title" placeholder="Title of the thread">
+            </div>
+            <div>
+              <input type="text" name="keywords" placeholder="search keys seperated by a blank">
+            </div>
+            <div>
+              <textarea name="content" cols="50" rows="5" placeholder="content of the thread"></textarea>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-outline-danger">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--MAIN ROOT-->
   <div id="root" class="bg-light m-3 p-4"></div>
 

@@ -16,7 +16,15 @@ export function home_page(){
         Elements.root.innerHTML = ProtectedMessage.html;
         return;
     }
-    Elements.root.innerHTML = `
-        <h1>Home Page</h1>
-    `;
+    //read all threads from DB and render
+    buildHomeScreen();
+}
+
+function buildHomeScreen(){
+    let html = '';
+    html+=`
+        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal-create-thread">
+        + New Thread</button>
+    `
+    Elements.root.innerHTML = html;
 }
