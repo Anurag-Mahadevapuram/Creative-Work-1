@@ -103,13 +103,13 @@
         <div class="modal-body">
           <form id="form-create-thread" method="post">
             <div>
-              <input type="text" name="title" placeholder="Title of the thread">
+              <input type="text" name="title" placeholder="Title of the thread" required minlength="2">
             </div>
             <div>
-              <input type="text" name="keywords" placeholder="search keys seperated by a blank">
+              <input type="text" name="keywords" placeholder="search keys seperated by a blank" required minlength="2">
             </div>
             <div>
-              <textarea name="content" cols="50" rows="5" placeholder="content of the thread"></textarea>
+              <textarea name="content" cols="50" rows="5" placeholder="content of the thread" required minlength="5"></textarea>
             </div>
             <div>
               <button type="submit" class="btn btn-outline-danger">Create</button>

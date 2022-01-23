@@ -3,6 +3,7 @@ export const root = document.getElementById('root');
 
 //forms
 export const formSignIn = document.getElementById('form-signin');
+export const formCreateThread = document.getElementById('form-create-thread');
 
 //button
 export const menuSignOut = document.getElementById('menu-signout');
