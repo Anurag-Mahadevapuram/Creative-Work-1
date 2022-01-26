@@ -9,9 +9,12 @@ import * as Util from './util.js'
 
 export function addEventListeners(){
 
-    Elements.menuHome.addEventListener('click', ()=>{
+    Elements.menuHome.addEventListener('click', async ()=>{
         history.pushState(null, null, routePath.HOME);
-        home_page();
+        const label = Util.disableButton(Elements.menuHome);
+        await home_page();
+        await Util.sleep(1000);
+        Util.enableButton(Elements.menuHome, label);
     });
 
     Elements.formCreateThread.addEventListener('submit', addNewThread);
@@ -19,6 +22,10 @@ export function addEventListeners(){
 
 async function addNewThread(e){
     e.preventDefault();
+
+    const createButton = e.target.getElementsByTagName('button')[0];
+    const label = Util.disableButton(createButton);
+
     const title = e.target.title.value;
     const content = e.target.content.value;
     const keywords = e.target.keywords.value;
@@ -35,12 +42,24 @@ async function addNewThread(e){
 
         const docId = await FirestoreController.addThread(thread);
         thread.set_docId(docId);
-        home_page(); //this will be improved later
+        //home_page(); //this will be improved later
+        const trTag = document.createElement('tr'); //<tr></tr>
+        trTag.innerHTML = buildThreadView(thread);
+        const tableBodyTag = document.getElementById('thread-view-table-body');
+        tableBodyTag.prepend(trTag);
+        e.target.reset(); //clears prefilled thread data
+        const noThreadFound = document.getElementById('no-thread-found');
+        if(noThreadFound){
+            noThreadFound.remove();
+        }
+
         Util.info('Success', 'A new thread has been added', Elements.modalCreateThread);
     }catch(e){
         if(Constants.DEV) console.log(e);
         Util.info('Failed', JSON.stringify(e), Elements.modalCreateThread);
     }
+
+    Util.enableButton(createButton, label);
 
 }
 
@@ -95,7 +114,7 @@ function buildHomeScreen(threadList){
     html +='</tbody></table>';
 
     if(threadList.length==0){
-        html += '<h4>NO THREADS FOUND</h4>'
+        html += '<h4 id="no-thread-found">NO THREADS FOUND</h4>'
     }
 
     Elements.root.innerHTML = html;
