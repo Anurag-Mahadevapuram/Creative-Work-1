@@ -17,11 +17,14 @@ export function addViewFormEvents() {
 
 export function attachViewFormEventListener(form) {
 
-    form.addEventListener('submit', e => {
-
+    form.addEventListener('submit', async e => {
         e.preventDefault();
+
+        const button = e.target.getElementsByTagName('button')[0];
+        const label = Util.disableButton(button);
         const threadId = e.target.threadId.value;
-        thread_page(threadId);
+        await thread_page(threadId);
+        Util.enableButton(button, label);
     });
 }
 
@@ -43,9 +46,11 @@ async function thread_page(threadId) {
     //4. display all replies
     //5. add form to post new reply
     let thread;
+    let replies;
     try {
         thread = await FirestoreController.getOneThread(threadId);
         if (!thread) throw `Thread does not exist: ${threadId}`;
+        replies = await FirestoreController.getReplyList(threadId);
     } catch (e) {
         if (Constants.DEV) console.log(e);
         Util.info('error', JSON.stringify(e));
@@ -61,8 +66,14 @@ async function thread_page(threadId) {
 
     `;
 
-    html += '<div>'
-    //display replies
+    html += '<div id="reply-section">'
+
+        //display replies
+    if(replies && replies.length>0){
+        replies.forEach(r=>{
+            html+= buildReplyView(r);
+        });
+    }
     html += '</div>'
 
     html +=`
@@ -87,6 +98,9 @@ async function thread_page(threadId) {
             uid, email, timestamp, content, threadId,
         });
 
+        const button = e.target.getElementsByTagName('button')[0];
+        const label = Util.disableButton(button);
+
         try{
             const id = await FirestoreController.addReply(reply);
             reply.set_docId(id);
@@ -94,6 +108,27 @@ async function thread_page(threadId) {
         }catch(e){
             if(Constants.DEV) console.log(e);
             Util.info('Error', JSON.stringify(e));
+            return;
         }
+
+        //update web browser with added reply
+        const replyTag = document.createElement('div');
+        replyTag.innerHTML = buildReplyView(reply);
+        document.getElementById('reply-section').appendChild(replyTag);
+        e.target.reset();
+
+        Util.enableButton(button, label);
     });
+}
+
+function buildReplyView(reply){
+    return `
+        <div class="border border-primary">
+            <div class="bg-info text-white">
+                Replied By: ${reply.email} (At ${new Date(reply.timestamp).toString()})
+            </div>
+            ${reply.content};
+        </div>
+        <hr>
+    `;
 }
