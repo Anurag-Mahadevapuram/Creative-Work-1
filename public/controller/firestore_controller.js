@@ -34,3 +34,9 @@ export async function getOneThread(threadId){
     t.set_docId(threadId);
     return t;
 }
+
+export async function addReply(reply){
+
+    const docRef = await addDoc(collection(db, COLLECTIONS.REPLIES), reply.toFirestore());
+    return docRef.id;
+}
