@@ -140,7 +140,7 @@ function buildThreadView(thread) {
             </form>
         </td>
         <td>${thread.title}</td>
-        <td>${!thread.keywordsArray || !Array.isArray(thread.keywordsArray) ? '' : thread.keywordsArray.join('')}</td>
+        <td>${!thread.keywordsArray || !Array.isArray(thread.keywordsArray) ? ' ' : thread.keywordsArray.join(' ')}</td>
         <td>${thread.email}</td>
         <td>${thread.content}</td>
         <td>${new Date(thread.timestamp).toString()}</td>
