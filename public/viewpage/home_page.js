@@ -76,7 +76,7 @@ export async function home_page() {
     }
 
     //read all threads from DB and render 
-    let threadList
+    let threadList;
     try {
         threadList = await FirestoreController.getThreadList();
     }
