@@ -55,3 +55,21 @@ export async function getReplyList(threadId){
     })
     return replies;
 }
+
+export async function searchThreads(keywordsArray){
+
+    const threadList = [];
+    const q = query(collection(db, COLLECTIONS.THREADS),
+        where('keywordsArray', 'array-contains-any', keywordsArray),
+        orderBy('timestamp', 'desc')
+    );
+    const snapShot = await getDocs(q);
+
+    snapShot.forEach(doc =>{
+
+        const t = new Thread(doc.data());
+        t.set_docId(doc.id);
+        threadList.push(t);
+    })
+    return threadList;
+}

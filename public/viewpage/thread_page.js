@@ -5,6 +5,7 @@ import * as Util from './util.js'
 import * as FirestoreController from '../controller/firestore_controller.js';
 import * as Constants from '../model/constants.js'
 import { Reply } from "../model/reply.js";
+import { routePath } from "../controller/route.js";
 
 export function addViewFormEvents() {
 
@@ -23,12 +24,13 @@ export function attachViewFormEventListener(form) {
         const button = e.target.getElementsByTagName('button')[0];
         const label = Util.disableButton(button);
         const threadId = e.target.threadId.value;
+        history.pushState(null, null, routePath.THREAD + '#' + threadId);
         await thread_page(threadId);
         Util.enableButton(button, label);
     });
 }
 
-async function thread_page(threadId) {
+export async function thread_page(threadId) {
 
     if (!currentUser) {
         Elements.root.innerHTML = ProtectedMessage.html;
