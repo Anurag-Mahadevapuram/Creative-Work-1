@@ -11,6 +11,7 @@ export const formCreateAccount = document.getElementById('form-create-account');
 export const menuSignOut = document.getElementById('menu-signout');
 export const menuHome = document.getElementById('menu-home');
 export const menuAbout = document.getElementById('menu-about');
+export const menuChatbot = document.getElementById('menu-chatbot');
 
 
 //modals

@@ -1,6 +1,6 @@
 import {
     getFirestore, collection, addDoc, getDocs, query, orderBy, 
-    doc, getDoc, where
+    doc, getDoc, where, deleteDoc,
 } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-firestore.js"
 import { COLLECTIONS } from "../model/constants.js";
 import { Reply } from "../model/reply.js";
@@ -72,4 +72,30 @@ export async function searchThreads(keywordsArray){
         threadList.push(t);
     })
     return threadList;
+}
+
+export async function deleteOneThread(threadId) {
+    const docRef = doc(db, COLLECTIONS.THREADS, threadId);
+    
+    //Delete all the Replies
+    const q = query(collection(db, COLLECTIONS.REPLIES), where('threadId', '==', threadId), orderBy('timestamp'));
+    const snapShot = await getDocs(q);
+
+
+    const replies =[];
+    snapShot.forEach(doc => {
+        const r = new Reply(doc.data());
+        r.set_docId(doc.id);
+        replies.push(r);
+    })
+
+    for(let a=0;a<replies.length;a++)
+    {   
+        console.log(replies[a].docId);
+        const replyRef = doc(db, COLLECTIONS.REPLIES, replies[a].docId);
+        await deleteDoc(replyRef);
+    }
+    
+    //Deletion of the Thread
+    const docSnap = await deleteDoc(docRef);
 }

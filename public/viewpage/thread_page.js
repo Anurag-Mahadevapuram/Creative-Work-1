@@ -16,6 +16,37 @@ export function addViewFormEvents() {
     }
 }
 
+export function deleteaThread() {
+    const delButtonPress = document.getElementsByClassName('thread-delete-form');
+    for (let i = 0; i < delButtonPress.length; i++) {
+        deleteViewFormEventListener(delButtonPress[i]);
+    }
+}
+
+export function deleteViewFormEventListener(form) {
+    const deleteButtonconfirm = document.getElementById('delete-thread-final');
+    const deletemodal = new bootstrap.Modal(document.getElementById('modal-delete-thread'), { backdrop: 'static' });
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const threadId = e.target.threadId.value;
+        let thread = await FirestoreController.getOneThread(threadId);
+        deleteButtonconfirm.addEventListener('click', async f => {
+            f.preventDefault();
+            const threadId = e.target.threadId.value;
+            console.log("Delete Thread :" + threadId);
+                if (thread.email == currentUser.email) {
+                    Util.info('Success', 'Delete Successful');
+                    await FirestoreController.deleteOneThread(threadId);
+
+                    return;
+                }else
+                Util.info('Error', 'You are unauthorized to Delete!');
+            
+            await home_page();
+        });
+    });
+}
+
 export function attachViewFormEventListener(form) {
 
     form.addEventListener('submit', async e => {

@@ -2,12 +2,14 @@ import { home_page } from "../viewpage/home_page.js";
 import { about_page } from "../viewpage/about_page.js";
 import { thread_page } from "../viewpage/thread_page.js";
 import { search_page } from "../viewpage/search_page.js";
+import { chatbot_page } from "../viewpage/chatbot_page.js";
 
 export const routePath = {
     HOME: '/',
     ABOUT: '/about',
     THREAD: '/thread',
     SEARCH: '/search',
+    CHATBOT: '/chatbot',
 }
 
 export const routes = [
@@ -15,6 +17,8 @@ export const routes = [
     { path: routePath.ABOUT, page: about_page },
     { path: routePath.THREAD, page: thread_page },
     { path: routePath.SEARCH, page: search_page },
+    { path: routePath.CHATBOT, page: chatbot_page},
+
 
 
 ];

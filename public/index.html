@@ -36,6 +36,9 @@
             <button id="menu-about" class="btn btn-outline-primary">About</button>
           </li>
           <li class="nav-item modal-postauth">
+            <button id="menu-chatbot" class="btn btn-outline-primary">Chat bot</button>
+          </li>
+          <li class="nav-item modal-postauth">
             <button id="menu-signout" class="btn btn-outline-danger">Sign Out</button>
           </li>
         </ul>
@@ -149,6 +152,32 @@
       </div>
     </div>
   </div>
+
+  
+  <!-- Modal: Thread Delete -->
+  <div class="modal fade" id="modal-delete-thread" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modal-delete-thread-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-delete-thread-label">Delete Thread?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to Delete?
+      </div>
+      <div class="modal-footer">
+        <button type="submit" id="delete-thread-final" class="btn btn-outline-danger"
+          data-bs-dismiss="modal">Yes</button>
+        <button type="click" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
   <!--MAIN ROOT-->
   <div id="root" class="bg-light m-3 p-4"></div>

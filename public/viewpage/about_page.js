@@ -10,6 +10,10 @@ export function addEventListeners(){
     });
 }
 
+
+    
+
+
 export function about_page(){
     if(!currentUser){
         Elements.root.innerHTML = ProtectedMessage.html;
@@ -18,5 +22,8 @@ export function about_page(){
     
     Elements.root.innerHTML = `
     <h1>About Page</h1>
+    
+    
     `;
+    
 }

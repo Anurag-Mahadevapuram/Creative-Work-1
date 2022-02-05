@@ -129,6 +129,8 @@ export function buildHomeScreen(threadList) {
     //attach event listeners to view buttons
     ThreadPage.addViewFormEvents();
 
+    ThreadPage.deleteaThread();
+
 }
 
 function buildThreadView(thread) {
@@ -138,6 +140,11 @@ function buildThreadView(thread) {
                 <input type="hidden" name="threadId" value="${thread.docId}">
                 <button type="submit" class="btn btn-outline-primary">view</button>
             </form>
+            <form method="post" class="thread-delete-form">
+            <input type="hidden" name="threadId" value="${thread.docId}">
+            <button type="submit" class="btn btn-danger" 
+            data-bs-toggle="modal" data-bs-target="#modal-delete-thread">Delete</button>
+           </form>
         </td>
         <td>${thread.title}</td>
         <td>${!thread.keywordsArray || !Array.isArray(thread.keywordsArray) ? ' ' : thread.keywordsArray.join(' ')}</td>
